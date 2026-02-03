@@ -50,7 +50,7 @@
   },
   "Model": "Items/Remote_Controller.blockymodel",
   "Texture": "Items/Remote_Controller_Texture.png",
-  "Icon": "Icons/ItemsGenerated/Media_RemoteControl.png",
+  "Icon": "Icons/ItemsGenerated/Dirtbike_Keys.png",
   "Tags": {
     "Type": [
       "Tool"
