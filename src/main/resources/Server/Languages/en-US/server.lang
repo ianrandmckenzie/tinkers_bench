@@ -1,0 +1,10 @@
+motorcycle.name = Motorcycle
+motorcycle.key.name = Motorcycle Key
+motorcycle.key.description = A high-tech remote used to spawn your personal motorcycle.
+motorcycle.interactionHints.mount = Press [{key}] to Ride
+Motorcycle_Key_Interactions_Primary_Interactions_0 = Spawn Motorcycle
+Motorcycle_Keys_Interactions_Primary_Interactions_0 = Spawn Motorcycle
+Motorcycle_Key_Interactions_Primary_0 = Spawn Motorcycle
+Motorcycle_Keys_Interactions_Primary_0 = Spawn Motorcycle
+relentlesscurious_Motorcycle_Key_Interactions_Primary_0 = Spawn Motorcycle
+relentlesscurious_Motorcycle_Key_Interactions_Primary_Interactions_0 = Spawn Motorcycle

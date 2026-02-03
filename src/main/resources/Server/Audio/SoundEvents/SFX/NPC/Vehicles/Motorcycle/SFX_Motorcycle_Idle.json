@@ -1,0 +1,15 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/NPC/Vehicles/Motorcycle/Idle_Loop.ogg"
+      ],
+      "Looping": false,
+      "Volume": -7.979400086720375
+    }
+  ],
+  "MaxInstance": 20,
+  "Volume": -7.979400086720375,
+  "PreventSoundInterruption": false,
+  "Parent": "SFX_Attn_Moderate"
+}

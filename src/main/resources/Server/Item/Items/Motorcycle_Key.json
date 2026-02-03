@@ -1,0 +1,59 @@
+{
+  "TranslationProperties": {
+    "Name": "server.motorcycle.key.name",
+    "Description": "server.motorcycle.key.description"
+  },
+  "Recipe": {
+    "TimeSeconds": 5,
+    "KnowledgeRequired": false,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Bar_Gold",
+        "Quantity": 2
+      }
+    ],
+    "Product": "Tools",
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Workbench",
+        "Categories": [
+          "Workbench_Tinkering"
+        ]
+      }
+    ]
+  },
+  "Quality": "Rare",
+  "PlayerAnimationsId": "Item",
+  "Interactions": {
+    "Primary": "Root_SpawnNPC",
+    "Secondary": "Root_SpawnNPC"
+  },
+  "InteractionVars": {
+    "SpawnNPC_Entity": {
+      "Interactions": [
+        {
+          "Type": "SpawnNPC",
+          "EntityId": "Motorcycle",
+          "SpawnOffset": {
+            "X": 0,
+            "Y": 1,
+            "Z": 0
+          }
+        }
+      ]
+    }
+  },
+  "Model": "Items/Remote_Controller.blockymodel",
+  "Texture": "Items/Remote_Controller_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Media_RemoteControl.png",
+  "Tags": {
+    "Type": [
+      "Tool"
+    ]
+  }
+}

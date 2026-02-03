@@ -1,0 +1,19 @@
+{
+  "Group": "relentlessCurious",
+  "Name": "TinkersBench",
+  "Version": "1.0.0",
+  "Description": "High-powered motorcycles.",
+  "Authors": [
+    {
+      "Name": "Ian R. McKenzie",
+      "Email": "hey@relentlesscurious.com",
+      "Url": "https://www.relentlesscurious.com"
+    }
+  ],
+  "ServerVersion": "*",
+  "IncludesAssetPack": true,
+  "Dependencies": {
+    "Hytale:EntityModule": "*"
+  },
+  "Main": "com.relentlesscurious.tinkersbench.TinkersBenchPlugin"
+}

@@ -1,0 +1,12 @@
+target/
+*.class
+.settings/
+.classpath
+.project
+.vscode/
+*.iml
+.idea/
+.DS_Store
+*.log
+.github/copilot-instructions.md
+.env
