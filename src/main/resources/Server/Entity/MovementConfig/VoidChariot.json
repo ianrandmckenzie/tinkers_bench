@@ -48,6 +48,6 @@
   "AutoJumpObstacleSprintSpeedLoss": 0.0,
   "AutoJumpObstacleEffectDuration": 0.0,
   "AutoJumpObstacleSprintEffectDuration": 0.0,
-  "JumpEffectDuration ": 0.0,
-  "SprintJumpEffectDuration": 0.0
+  "AutoJumpObstacleMaxAngle": 90,
+  "AutoJumpDisableJumping": true
 }
