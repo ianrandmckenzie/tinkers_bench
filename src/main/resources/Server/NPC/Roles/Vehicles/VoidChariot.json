@@ -1,0 +1,84 @@
+{
+  "Type": "Generic",
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "server.voidchariot.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "IsMountable": {
+      "Value": true,
+      "Description": "Whether this NPC can be mounted"
+    },
+    "MountAnchorX": {
+      "Value": 0
+    },
+    "MountAnchorY": {
+      "Value": 1.6
+    },
+    "MountAnchorZ": {
+      "Value": 0
+    },
+    "MountMovementConfig": {
+      "Value": "VoidChariot"
+    },
+    "MaxHealth": {
+      "Value": 500,
+      "Description": "Max health for the NPC"
+    }
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Neutral",
+  "Appearance": "VoidChariot",
+  "DropList": "Drop_VoidChariot",
+  "MaxHealth": { "Compute": "MaxHealth" },
+  "IsMountable": { "Compute": "IsMountable" },
+  "MountAnchorX": { "Compute": "MountAnchorX" },
+  "MountAnchorY": { "Compute": "MountAnchorY" },
+  "MountAnchorZ": { "Compute": "MountAnchorZ" },
+  "MountMovementConfig": { "Compute": "MountMovementConfig" },
+  "KnockbackScale": 0,
+  "Invulnerable": false,
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 25,
+      "Gravity": 15,
+      "MaxFallSpeed": 15,
+      "JumpHeight": 0.1,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 100
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "server.voidchariot.interactionHints.mount"
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Actions": [
+          {
+            "Type": "Mount",
+            "AnchorX": { "Compute": "MountAnchorX" },
+            "AnchorY": { "Compute": "MountAnchorY" },
+            "AnchorZ": { "Compute": "MountAnchorZ" },
+            "MovementConfig": { "Compute": "MountMovementConfig" }
+          }
+        ]
+      }
+    ]
+  },
+  "NameTranslationKey": { "Compute": "NameTranslationKey" }
+}

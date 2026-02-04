@@ -67,7 +67,8 @@ public class MotorcycleSystem extends DelayedEntitySystem<EntityStore> {
 
     String modelAssetId = modelComp.getModel().getModelAssetId();
     if (modelAssetId == null
-        || (!modelAssetId.toLowerCase().contains("motorcycle") && !modelAssetId.toLowerCase().contains("steambike")))
+        || (!modelAssetId.toLowerCase().contains("motorcycle") && !modelAssetId.toLowerCase().contains("steambike")
+            && !modelAssetId.toLowerCase().contains("voidchariot")))
       return;
 
     NetworkId netIdComp = store.getComponent(entity, NetworkId.getComponentType());
@@ -80,7 +81,12 @@ public class MotorcycleSystem extends DelayedEntitySystem<EntityStore> {
       diagnosedEntities.add(networkId);
       System.out.println("[TinkersBench] Diagnosing entity " + networkId + " (" + modelAssetId + ")");
       if (config != null && config.bikes != null) {
-        String carKey = modelAssetId.toLowerCase().contains("steambike") ? "steambike" : "motorcycle";
+        String carKey = "motorcycle";
+        if (modelAssetId.toLowerCase().contains("steambike")) {
+          carKey = "steambike";
+        } else if (modelAssetId.toLowerCase().contains("voidchariot")) {
+          carKey = "voidchariot";
+        }
         TinkersBenchConfig.BikeConfig bikeConfig = config.bikes.get(carKey);
         if (bikeConfig != null && bikeConfig.power != null) {
           System.out.println("[TinkersBench] Config found for " + carKey + ": BaseSpeed=" + bikeConfig.power.baseSpeed);

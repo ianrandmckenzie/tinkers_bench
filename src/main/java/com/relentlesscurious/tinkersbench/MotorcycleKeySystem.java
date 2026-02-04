@@ -45,7 +45,8 @@ public class MotorcycleKeySystem extends DelayedEntitySystem<EntityStore> {
 
     String modelAssetId = modelComp.getModel().getModelAssetId();
     if (modelAssetId == null
-        || (!modelAssetId.toLowerCase().contains("motorcycle") && !modelAssetId.toLowerCase().contains("steambike"))) {
+        || (!modelAssetId.toLowerCase().contains("motorcycle") && !modelAssetId.toLowerCase().contains("steambike")
+            && !modelAssetId.toLowerCase().contains("voidchariot"))) {
       return;
     }
 

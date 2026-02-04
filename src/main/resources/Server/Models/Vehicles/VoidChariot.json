@@ -1,0 +1,43 @@
+{
+  "Model": "NPC/Vehicles/VoidChariot/VoidChariot.blockymodel",
+  "Texture": "NPC/Vehicles/VoidChariot/VoidChariot.png",
+  "TranslationProperties": {
+    "Name": "server.voidchariot.name"
+  },
+  "EyeHeight": 1.5,
+  "HitBox": {
+    "Max": {
+      "X": 1.2,
+      "Y": 1.5,
+      "Z": 0.45
+    },
+    "Min": {
+      "X": -1.2,
+      "Y": 0,
+      "Z": -0.45
+    }
+  },
+  "AnimationSets": {
+    "Idle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Idle.blockyanim"
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Walk.blockyanim"
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Run.blockyanim"
+        }
+      ]
+    }
+  }
+}

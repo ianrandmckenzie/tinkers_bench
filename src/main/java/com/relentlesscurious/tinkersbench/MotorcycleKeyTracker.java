@@ -38,7 +38,8 @@ public class MotorcycleKeyTracker {
     }
 
     String normalizedPath = normalized.replace('\\', '/');
-    return normalizedPath.contains("motorcycle_key") || normalizedPath.contains("steambike_key");
+    return normalizedPath.contains("motorcycle_key") || normalizedPath.contains("steambike_key")
+        || normalizedPath.contains("voidchariot_key");
   }
 
   public boolean hasPending(UUID playerId) {

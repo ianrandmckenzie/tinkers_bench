@@ -16,3 +16,12 @@ Steambike_Key_Interactions_Primary_Interactions_0 = Spawn Steambike
 Steambike_Key_Interactions_Primary_0 = Spawn Steambike
 relentlesscurious_Steambike_Key_Interactions_Primary_0 = Spawn Steambike
 relentlesscurious_Steambike_Key_Interactions_Primary_Interactions_0 = Spawn Steambike
+voidchariot.name = Void Chariot
+voidchariot.key.name = Void Chariot Key
+voidchariot.key.description = A mysterious key to spawn your Void Chariot.
+voidchariot.interactionHints.mount = Press [{key}] to Ride
+VoidChariot_Key_Interactions_Primary_Interactions_0 = Spawn Void Chariot
+VoidChariot_Key_Interactions_Primary_0 = Spawn Void Chariot
+relentlesscurious_VoidChariot_Key_Interactions_Primary_0 = Spawn Void Chariot
+relentlesscurious_VoidChariot_Key_Interactions_Primary_Interactions_0 = Spawn Void Chariot
+
