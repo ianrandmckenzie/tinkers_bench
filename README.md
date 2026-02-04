@@ -13,6 +13,27 @@
   - Optimized for multiplayer with `MaxInstance` tuning to allow overlapping engine sounds without cutting out.
 - **Animations**:
   - Full animation state machine support (Idle, Walk, Run, Sprint) mapped to vehicle speed.
+- **Configuration**:
+  - Adjustable bike power (speed, acceleration) via `config.json`.
+  - Configurable crafting recipes.
+
+## Configuration
+
+A `tinkers_bench.json` file will be generated in the server's `mods` directory upon first run. You can edit this file to adjust bike stats:
+
+```json
+{
+  "bikes": {
+    "motorcycle": {
+      "power": {
+        "baseSpeed": 15.0,
+        "acceleration": 0.5,
+        "forwardSprintSpeedMultiplier": 2.5
+      }
+    }
+  }
+}
+
 
 ## Installation
 

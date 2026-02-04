@@ -21,6 +21,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.util.MathUtil;
 
+import com.relentlesscurious.tinkersbench.config.TinkersBenchConfig;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -34,10 +35,13 @@ public class MotorcycleSystem extends DelayedEntitySystem<EntityStore> {
   private final Map<Integer, Long> lastSoundPlayMs = new HashMap<>();
   private final Map<String, Integer> soundIndexCache = new HashMap<>();
   private final Map<Integer, Vector3d> previousPositions = new HashMap<>();
+  private final java.util.Set<Integer> diagnosedEntities = new java.util.HashSet<>();
   private SoundCategory resolvedSoundCategory;
+  private final TinkersBenchConfig config;
 
-  public MotorcycleSystem(HytaleLogger logger) {
+  public MotorcycleSystem(HytaleLogger logger, TinkersBenchConfig config) {
     super(0.05f); // 20 TPS
+    this.config = config;
   }
 
   @Override
@@ -66,16 +70,26 @@ public class MotorcycleSystem extends DelayedEntitySystem<EntityStore> {
         || (!modelAssetId.toLowerCase().contains("motorcycle") && !modelAssetId.toLowerCase().contains("steambike")))
       return;
 
-    TransformComponent transform = store.getComponent(entity, TransformComponent.getComponentType());
-    if (transform == null || transform.getPosition() == null)
-      return;
-
     NetworkId netIdComp = store.getComponent(entity, NetworkId.getComponentType());
     if (netIdComp == null)
       return;
     int networkId = netIdComp.getId();
 
-    // Check movement states (if ridden) or velocity (if autonomous/idle)
+    // Diagnostics: Print components once per entity
+    if (!diagnosedEntities.contains(networkId)) {
+      diagnosedEntities.add(networkId);
+      System.out.println("[TinkersBench] Diagnosing entity " + networkId + " (" + modelAssetId + ")");
+      if (config != null && config.bikes != null) {
+        String carKey = modelAssetId.toLowerCase().contains("steambike") ? "steambike" : "motorcycle";
+        TinkersBenchConfig.BikeConfig bikeConfig = config.bikes.get(carKey);
+        if (bikeConfig != null && bikeConfig.power != null) {
+          System.out.println("[TinkersBench] Config found for " + carKey + ": BaseSpeed=" + bikeConfig.power.baseSpeed);
+        }
+      }
+      // TODO: List all components to find MovementConfig
+    }
+
+    TransformComponent transform = store.getComponent(entity, TransformComponent.getComponentType());
     MovementStatesComponent moveComp = store.getComponent(entity, MovementStatesComponent.getComponentType());
     boolean isRunning = false;
     boolean isWalking = false;

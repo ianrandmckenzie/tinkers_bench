@@ -1,0 +1,30 @@
+{
+  "bikes": {
+    "motorcycle": {
+      "power": {
+        "baseSpeed": 15.0,
+        "acceleration": 0.5,
+        "forwardSprintSpeedMultiplier": 2.5
+      },
+      "recipe": {
+        "ingredients": {
+          "Ingredient_Bar_Iron": 10,
+          "Ingredient_Bar_Gold": 2
+        }
+      }
+    },
+    "steambike": {
+      "power": {
+        "baseSpeed": 15.0,
+        "acceleration": 0.5,
+        "forwardSprintSpeedMultiplier": 2.5
+      },
+      "recipe": {
+        "ingredients": {
+          "Ingredient_Bar_Iron": 10,
+          "Ingredient_Bar_Gold": 2
+        }
+      }
+    }
+  }
+}
