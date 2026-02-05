@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2026-02-04
+## [1.0.1] - 2026-02-04
 
 ### Added
 - Added Steambike and Void Chariot.
+- Added "craftable" toggle to bike configuration.
 
 ### Changed
 - Made motorcycle recipes and movement variables configurable.

@@ -6,6 +6,7 @@ public class TinkersBenchConfig {
   public Map<String, BikeConfig> bikes;
 
   public static class BikeConfig {
+    public boolean craftable = true;
     public PowerConfig power;
     public RecipeConfig recipe;
   }

@@ -25,6 +25,7 @@ A `tinkers_bench.json` file will be generated in the server's `mods` directory u
 {
   "bikes": {
     "motorcycle": {
+      "craftable": true,
       "power": {
         "baseSpeed": 15.0,
         "acceleration": 0.5,
