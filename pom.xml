@@ -6,7 +6,7 @@
 
     <groupId>com.relentlesscurious</groupId>
     <artifactId>tinkers-bench</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.hypixel.hytale</groupId>
             <artifactId>Server</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <scope>system</scope>
             <systemPath>/Users/exampleuser/Hytale/devops/HytaleServer.jar</systemPath>
         </dependency>
