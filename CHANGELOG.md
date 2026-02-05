@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-02-04
+
+### Added
+- Added Steambike and Void Chariot.
+
+### Changed
+- Made motorcycle recipes and movement variables configurable.
+- Improved texture for original motorcycle.
+
 ## [1.0.0] - 2023-10-27
 
 ### Added
