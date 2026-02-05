@@ -20,18 +20,19 @@ public class ConfigManager {
   }
 
   public void loadConfig() {
-    File modsDir = new File("mods");
-    if (!modsDir.exists()) {
-      modsDir.mkdirs();
+    File configDir = new File("config");
+    if (!configDir.exists()) {
+      configDir.mkdirs();
     }
-    File configFile = new File(modsDir, "tinkers_bench.json");
+    File configFile = new File(configDir, "tinkers_bench.json");
+    plugin.getLogger().atInfo().log("Loading configuration from: " + configFile.getAbsolutePath());
 
     // If config doesn't exist, try to copy from resources
     if (!configFile.exists()) {
       try (InputStream is = plugin.getClass().getClassLoader().getResourceAsStream("config.json")) {
         if (is != null) {
           Files.copy(is, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          plugin.getLogger().atInfo().log("Created default tinkers_bench.json");
+          plugin.getLogger().atInfo().log("Created default config at " + configFile.getAbsolutePath());
         }
       } catch (IOException e) {
         plugin.getLogger().atSevere().log("Failed to create default tinkers_bench.json: " + e.getMessage());
@@ -41,9 +42,20 @@ public class ConfigManager {
     if (configFile.exists()) {
       try (FileReader reader = new FileReader(configFile)) {
         config = gson.fromJson(reader, TinkersBenchConfig.class);
-        plugin.getLogger().atInfo().log("Loaded TinkersBench config.");
+        plugin.getLogger().atInfo().log("Loaded TinkersBench config successfully.");
       } catch (IOException e) {
         plugin.getLogger().atSevere().log("Failed to load tinkers_bench.json: " + e.getMessage());
+      }
+    }
+
+    if (config == null) {
+      plugin.getLogger().atWarning().log("Config was null after loading. Falling back to internal defaults.");
+      // Try to load internal as fallback
+      try (java.io.InputStreamReader reader = new java.io.InputStreamReader(
+          plugin.getClass().getClassLoader().getResourceAsStream("config.json"))) {
+        config = gson.fromJson(reader, TinkersBenchConfig.class);
+      } catch (Exception e) {
+        plugin.getLogger().atSevere().log("Critical: Could not load internal default config.");
       }
     }
   }

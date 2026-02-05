@@ -52,6 +52,9 @@ if [ -z "$JAR_NAME" ] || [ ! -f "target/$JAR_NAME" ]; then
     exit 1
 fi
 
+echo "Removing old versions on remote server..."
+ssh "$SERVER_USER@$SERVER_IP" "rm -f ${REMOTE_PATH}tinkers-bench-*.jar"
+
 echo "Deploying $JAR_NAME to $SERVER_IP..."
 scp "target/$JAR_NAME" "$SERVER_USER@$SERVER_IP:$REMOTE_PATH"
 if [ $? -ne 0 ]; then

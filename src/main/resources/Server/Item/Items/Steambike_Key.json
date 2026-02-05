@@ -12,6 +12,22 @@
         "Quantity": 10
       },
       {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 14
+      },
+      {
+        "ItemId": "Ingredient_Leather_Medium",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Block_Log_Oak",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Thorium",
+        "Quantity": 2
+      },
+      {
         "ItemId": "Ingredient_Bar_Gold",
         "Quantity": 2
       }

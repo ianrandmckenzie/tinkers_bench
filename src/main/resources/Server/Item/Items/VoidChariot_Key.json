@@ -12,8 +12,28 @@
         "Quantity": 10
       },
       {
-        "ItemId": "Ingredient_Bar_Gold",
+        "ItemId": "Ingredient_Tree_Sap",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Silver",
         "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Leather_Heavy",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Bar_Adamantite",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 50
+      },
+      {
+        "ItemId": "Ingredient_Void_Heart",
+        "Quantity": 1
       }
     ],
     "Product": "Tools",

@@ -23,6 +23,9 @@ public class TinkersBenchPlugin extends JavaPlugin {
     this.configManager = new ConfigManager(this);
     this.configManager.loadConfig();
 
+    // Apply recipe overrides using direct Asset modification
+    new RecipeApplier(getLogger(), configManager.getConfig()).applyHelper();
+
     // Event listeners disabled in favor of JSON configuration for Hytale compliance
     // getEventRegistry().registerGlobal(EntityRemoveEvent.class,
     // this::handleEntityRemove);
