@@ -22,18 +22,125 @@
 A `tinkers_bench.json` file will be generated in the server's `mods` directory upon first run. You can edit this file to adjust bike stats:
 
 ```json
+
+
+
 {
+
   "bikes": {
+
     "motorcycle": {
+
       "craftable": true,
+
       "power": {
+
         "baseSpeed": 15.0,
+
         "acceleration": 0.5,
+
         "forwardSprintSpeedMultiplier": 2.5
+
+      },
+
+      "recipe": {
+
+        "ingredients": {
+
+          "Ingredient_Bar_Iron": 10,
+
+          "Ingredient_Bar_Thorium": 12,
+
+          "Ingredient_Leather_Medium": 2,
+
+          "Ingredient_Tree_Sap": 8,
+
+          "Ingredient_Bar_Gold": 2
+
+        }
+
       }
+
+    },
+
+    "steambike": {
+
+      "craftable": true,
+
+      "power": {
+
+        "baseSpeed": 15.0,
+
+        "acceleration": 0.5,
+
+        "forwardSprintSpeedMultiplier": 2.5
+
+      },
+
+      "recipe": {
+
+        "ingredients": {
+
+          "Ingredient_Bar_Iron": 10,
+
+          "Ingredient_Bar_Copper": 14,
+
+          "Ingredient_Leather_Medium": 2,
+
+          "Block_Log_Oak": 8,
+
+          "Ingredient_Bar_Thorium": 2,
+
+          "Ingredient_Bar_Gold": 2
+
+        }
+
+      }
+
+    },
+
+    "voidchariot": {
+
+      "craftable": true,
+
+      "power": {
+
+        "baseSpeed": 15.0,
+
+        "acceleration": 0.5,
+
+        "forwardSprintSpeedMultiplier": 2.5
+
+      },
+
+      "recipe": {
+
+        "ingredients": {
+
+          "Ingredient_Bar_Iron": 10,
+
+          "Ingredient_Tree_Sap": 8,
+
+          "Ingredient_Bar_Silver": 2,
+
+          "Ingredient_Leather_Heavy": 2,
+
+          "Ingredient_Bar_Adamantite": 2,
+
+          "Ingredient_Void_Essence": 50,
+
+          "Ingredient_Void_Heart": 1
+
+        }
+
+      }
+
     }
+
   }
+
 }
+```
 
 
 ## Installation
@@ -47,11 +154,11 @@ A `tinkers_bench.json` file will be generated in the server's `mods` directory u
 
 ## Usage
 
-1. Obtain a **Motorcycle Key** (Item ID: `motorcycle_key`).
-2. **Right-Click** on a block to summon your motorcycle.
-3. **Right-Click** the motorcycle to mount it.
+1. Obtain a **Motorcycle Key** by crafting it in the regular Workbench.
+2. **Left-Click** on a block to summon your motorcycle.
+3. **Interact (Default: Press the F Key)** with the motorcycle to mount it.
 4. Use standard movement keys to drive.
-5. **Right-Click** with the key again to unsummon (store) the bike.
+5. **Interact** with the key again to unsummon (store) the bike.
 
 ## Technical Details
 

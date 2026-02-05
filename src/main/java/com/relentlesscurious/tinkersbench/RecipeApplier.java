@@ -75,12 +75,21 @@ public class RecipeApplier {
       // Create new Ingredient Array
       List<MaterialQuantity> newIngredients = new ArrayList<>();
       for (Map.Entry<String, Integer> ingredientEntry : recipeConfig.ingredients.entrySet()) {
-        String itemId = ingredientEntry.getKey();
+        String key = ingredientEntry.getKey();
         int qty = ingredientEntry.getValue();
+
+        String itemId = null;
+        String resourceTypeId = null;
+
+        if (key.startsWith("resource:")) {
+          resourceTypeId = key.substring("resource:".length());
+        } else {
+          itemId = key;
+        }
 
         // Constructor: MaterialQuantity(itemId, resourceTypeId, tag, quantity,
         // metadata)
-        MaterialQuantity ingredient = new MaterialQuantity(itemId, null, null, qty, null);
+        MaterialQuantity ingredient = new MaterialQuantity(itemId, resourceTypeId, null, qty, null);
         newIngredients.add(ingredient);
       }
 
