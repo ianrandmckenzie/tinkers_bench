@@ -12,7 +12,7 @@ fi
 SERVER_IP="${SERVER_IP:-}"
 SERVER_USER="${SERVER_USER:-root}"
 REMOTE_PATH="${REMOTE_PATH:-/root/Server/mods/}"
-JAR_NAME="${JAR_NAME:-tinkers-bench-1.0.2.jar}"
+JAR_NAME="${JAR_NAME:-tinkers-bench-1.0.3.jar}"
 HYTALE_JAR_PATH="${HYTALE_JAR_PATH:-../HytaleServer.jar}"
 
 # Colors for output

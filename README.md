@@ -1,30 +1,33 @@
-# Tinkers' Bench
+# Tinkers' Bench: High-Octane Hytale
 
-**Tinkers' Bench** is a Hytale server-side mod (plugin) that introduces functional, rideable motorcycles to the game. It is built using the Hytale Entity Component System (ECS) and features a robust sound and animation system designed for multiplayer compatibility.
+_Leave the walking to the mobs._
 
-## Features
+Tinkers' Bench is a premium server-side vehicle system that brings high-speed, functional motorcycles to the world of Orbis. Whether you're a lone explorer or part of a massive server, Tinkers' Bench adds a layer of mechanical wonder and fast-paced traversal to your gameplay.
 
-- **Rideable Motorcycles**: fast-paced traversal with custom physics/movement states.
-- **Key System**:
-  - Use the **Motorcycle Key** item to summon your personal motorcycle.
-  - Interactions with the key handle summoning and unsummoning logic.
-- **Dynamic Audio**:
-  - Realistic engine sounds that adapt to the bike's state (Idle, Drive, Fast Drive).
-  - Optimized for multiplayer with `MaxInstance` tuning to allow overlapping engine sounds without cutting out.
-- **Animations**:
-  - Full animation state machine support (Idle, Walk, Run, Sprint) mapped to vehicle speed.
-- **Configuration**:
-  - Adjustable bike power (speed, acceleration) via `config.json`.
-  - Configurable crafting recipes.
+## Key Features
 
-## Configuration
+*   Rideable Masterpieces: Experience smooth, custom physics and varied movement states designed to feel responsive and weighty.
+*   The Key to the Road: Use the Motorcycle Key to summon your vehicle instantly. To store your vehicle and get your keys back, smash up your motorcycle and they will drop! This makes the stakes higher on PvP servers — protect your ride or someone will take it!
+*   Immersive Audio: Features a dynamic engine sound system that reacts to your speed. From a low idle growl to a high-speed roar.
+*   Server-Side Magic: Since this is a server-side mod, players don’t need to download extra files to start riding!
 
-A `tinkers_bench.json` file will be generated in the server's `mods` directory upon first run. You can edit this file to adjust bike stats:
+## How to Get Started
 
-```json
+1.  Obtain a **Motorcycle Key** by crafting it in the regular Workbench.
+2.  **Left-Click** on a block to summon your motorcycle.
+3.  **Interact (Default: Press the F Key)** with the motorcycle to mount it.
+4.  Use standard movement keys to drive.
+5.  **Interact** with the key again to unsummon (store) the bike.
 
+## Configuration & Customization
 
+Tinkers' Bench is built for server owners. Upon the first launch, a tinkers\_bench.json will be generated in your mods folder. You can fully customize:
 
+Speed & Acceleration: Make your bikes nimble scouts or heavy cruisers. Custom Recipes: Adjust the difficulty of crafting to fit your server's economy.
+
+## Example Config:
+
+```
 {
 
   "bikes": {
@@ -142,32 +145,18 @@ A `tinkers_bench.json` file will be generated in the server's `mods` directory u
 }
 ```
 
-
 ## Installation
 
-1. Build the project using Maven:
-   ```bash
-   mvn clean package
-   ```
-2. Place the generated `.jar` file into your Hytale server's `mods` or `plugins` directory.
-3. Ensure the server has the required assets (models, animations, sounds) in the correct namespace (`relentlessCurious` / `TinkersBench`).
+1.  Download the asset pack.
+2.  Place the `tinkers_bench` folder into your Hytale `mods` or `assets` directory.
+3.  Restart your Hytale client/server.
 
-## Usage
+## Feedback
 
-1. Obtain a **Motorcycle Key** by crafting it in the regular Workbench.
-2. **Left-Click** on a block to summon your motorcycle.
-3. **Interact (Default: Press the F Key)** with the motorcycle to mount it.
-4. Use standard movement keys to drive.
-5. **Interact** with the key again to unsummon (store) the bike.
-
-## Technical Details
-
-- **Group**: `relentlessCurious`
-- **Name**: `TinkersBench`
-- **Dependencies**: Hytale Server API
-
-The mod uses a `DelayedEntitySystem` (20 TPS) to monitor motorcycle entities, updating their sound loop and animation state based on velocity and rider input.
+1.  Issues with translation or want to contribute your native tongue? Please contact Ian, `hey@relentlesscurious.com`
+2.  Love this pack and want more like it? Why not buy from the store or request a commission? Visit [relentlessCurious.com](https://www.relentlesscurious.com/)
+3.  Issues with the asset pack itself? Please visit [the support page](https://www.relentlesscurious.com/faq)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. Feel free to use it in modpacks!
