@@ -1,0 +1,36 @@
+{
+  "Model": "NPC/scriptorium_golem/scriptorium_golem.blockymodel",
+  "Texture": "NPC/scriptorium_golem/scriptorium_golem.png",
+  "TranslationProperties": {
+    "Name": "scriptorium_golem.name"
+  },
+  "EyeHeight": 1.5,
+  "HitBox": {
+    "Max": {
+      "X": 0.5,
+      "Y": 1.8,
+      "Z": 0.5
+    },
+    "Min": {
+      "X": -0.5,
+      "Y": 0,
+      "Z": -0.5
+    }
+  },
+  "AnimationSets": {
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/scriptorium_golem/walk_lantern_swing.blockyanim"
+        }
+      ]
+    },
+    "Idle": {
+      "Animations": [
+        {
+          "Animation": "NPC/scriptorium_golem/walk_lantern_swing.blockyanim"
+        }
+      ]
+    }
+  }
+}

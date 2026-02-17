@@ -1,0 +1,69 @@
+{
+  "TranslationProperties": {
+    "Name": "scriptorium_golem.book.name",
+    "Description": "scriptorium_golem.book.description"
+  },
+  "Icon": "Icons/ItemsGenerated/GolemBook.png",
+  "PlayerAnimationsId": "Block",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "Categories": [
+    "Blocks.Deco",
+    "Furniture.Deco"
+  ],
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Ingredient_Leather_Small",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Ingredient_Paper",
+        "Quantity": 5
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Furniture_Bench",
+        "Type": "Crafting",
+        "Categories": [
+          "Furniture_Misc"
+        ]
+      }
+    ],
+    "OutputQuantity": 1
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/golem_book/golem_book.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/golem_book/golem_book.png",
+        "Weight": 1
+      }
+    ],
+    "HitboxType": "Block_Quarter",
+    "VariantRotation": "NESW",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        },
+        {
+          "FaceType": "Any"
+        }
+      ]
+    },
+    "BlockParticleSetId": "Wood",
+    "BlockSoundSetId": "Wood",
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "SoftBlocks"
+      }
+    }
+  }
+}

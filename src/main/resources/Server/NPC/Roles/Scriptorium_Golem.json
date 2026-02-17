@@ -1,0 +1,29 @@
+{
+  "Type": "Generic",
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "scriptorium_golem.name"
+    },
+    "MaxHealth": {
+      "Value": 100
+    }
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Neutral",
+  "Appearance": "Scriptorium_Golem",
+  "MaxHealth": { "Compute": "MaxHealth" },
+  "KnockbackScale": 1,
+  "Invulnerable": false,
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 4,
+      "Gravity": 15,
+      "MaxFallSpeed": 15,
+      "JumpHeight": 0,
+      "MaxRotationSpeed": 180,
+      "Acceleration": 20
+    }
+  ],
+  "NameTranslationKey": { "Compute": "NameTranslationKey" }
+}

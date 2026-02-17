@@ -25,3 +25,10 @@ VoidChariot_Key_Interactions_Primary_0 = Spawn Void Chariot
 relentlesscurious_VoidChariot_Key_Interactions_Primary_0 = Spawn Void Chariot
 relentlesscurious_VoidChariot_Key_Interactions_Primary_Interactions_0 = Spawn Void Chariot
 
+# Scriptorium Golem
+scriptorium_golem.name = Scriptorium Golem
+scriptorium_golem.hourglass.name = Scribes' Hourglass
+scriptorium_golem.hourglass.description = A mystical anchor that summons a Scriptorium Golem to monitor the area.
+scriptorium_golem.book.name = Golem Book
+scriptorium_golem.book.description = Place next to a Scribes' Hourglass to record what the Golem sees.
+

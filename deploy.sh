@@ -27,7 +27,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${GREEN}Starting build and deployment for Tinkers Bench...${NC}"
+echo -e "${GREEN}Starting build and deployment for Tinkers' Bench...${NC}"
 
 # 1. Ensure HytaleServer.jar exists (pom uses systemPath)
 if [ ! -f "$HYTALE_JAR_PATH" ]; then
