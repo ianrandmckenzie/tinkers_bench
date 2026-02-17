@@ -38,6 +38,7 @@
   "MountMovementConfig": { "Compute": "MountMovementConfig" },
   "KnockbackScale": 0,
   "Invulnerable": false,
+  "BreathesInWater": true,
   "MotionControllerList": [
     {
       "Type": "Walk",
@@ -47,6 +48,21 @@
       "JumpHeight": 0.1,
       "MaxRotationSpeed": 360,
       "Acceleration": 100
+    },
+    {
+      "Type": "Dive",
+      "MaxSwimSpeed": 25,
+      "Acceleration": 100,
+      "MaxDiveSpeed": 15,
+      "SwimDepth": 0.6,
+      "SinkRatio": 0.5,
+      "MinDiveDepth": 0,
+      "MaxDiveDepth": 100,
+      "MinDepthAboveGround": 1,
+      "MinDepthBelowSurface": 1,
+      "Gravity": 15,
+      "MaxRotationSpeed": 360,
+      "MaxSwimTurnAngle": 180
     }
   ],
   "InteractionInstruction": {

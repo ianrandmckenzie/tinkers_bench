@@ -38,6 +38,55 @@
           "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Run.blockyanim"
         }
       ]
+    },
+    "FluidIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Idle.blockyanim"
+        }
+      ]
+    },
+    "FluidWalk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Walk.blockyanim"
+        }
+      ]
+    },
+    "FluidRun": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Run.blockyanim"
+        }
+      ]
+    },
+    "SwimFloat": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/SwimIdle.blockyanim"
+        }
+      ]
+    },
+    "SwimIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/SwimIdle.blockyanim"
+        }
+      ]
+    },
+    "Swim": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/Swim.blockyanim"
+        }
+      ]
+    },
+    "SwimFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Vehicles/Motorcycle/Animations/Default/SwimFast.blockyanim"
+        }
+      ]
     }
   }
 }
