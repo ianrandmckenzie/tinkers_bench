@@ -1,7 +1,7 @@
 {
   "Group": "relentlessCurious",
   "Name": "TinkersBench",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Description": "High-powered motorcycles.",
   "Authors": [
     {
@@ -10,7 +10,7 @@
       "Url": "https://www.relentlesscurious.com"
     }
   ],
-  "ServerVersion": "*",
+  "ServerVersion": "2026.02.17-255364b8e",
   "IncludesAssetPack": true,
   "Dependencies": {
     "Hytale:EntityModule": "*"
