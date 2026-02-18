@@ -25,20 +25,17 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * Task 3.3: When a player uses (primary interact / UseBlockEvent.Pre) the
- * placed Golem Book block, the formatted log for the adjacent Hourglass is
- * sent as in-game chat messages.
+ * Phase 4, Task 4.1 — When a player interacts with a placed Golem Book block
+ * the formatted log for the adjacent Scribes' Hourglass is displayed in a
+ * paged custom UI ({@link GolemBookPage}) rather than as chat messages.
  *
  * The Golem Book's item definition uses "Block_Primary" as its Primary
- * interaction, which routes through the UseBlock interaction and fires
- * UseBlockEvent.Pre in the ECS — the same event used by all block-interaction
- * systems in this plugin (GolemSightEventSystem, SimpleClaims' InteractEventSystem, etc.)
+ * interaction, routing through UseBlockEvent.Pre — the same event used by all
+ * block-interaction systems in this plugin.
  *
- * Each log entry is displayed as:
- *   [2026-02-17 14:23:05] Player 'Alice' entered monitoring radius (dist=7.3)
- *
- * If the book has no adjacent active Hourglass, or the log is empty, an
- * appropriate message is shown instead.
+ * If the book has no adjacent active Hourglass an immediate chat notice is
+ * shown instead (nothing meaningful to display in a UI).  If the page engine
+ * fails to open, a chat fallback renders the raw log.
  *
  * Diagnostics: All Golem Book interactions are printed to stdout so the server
  * log confirms the block-ID format that triggers this handler.
@@ -46,7 +43,7 @@ import java.util.Set;
 public class GolemBookReadSystem extends EntityEventSystem<EntityStore, UseBlockEvent.Pre> {
 
     private static final String BOOK_KEY   = "golem_book";
-    /** Maximum number of log entries shown to a player in one read to avoid chat spam. */
+    /** Fallback: maximum entries rendered as chat lines if the custom page fails to open. */
     private static final int    MAX_ENTRIES = 20;
 
     private final HytaleLogger logger;
@@ -97,33 +94,38 @@ public class GolemBookReadSystem extends EntityEventSystem<EntityStore, UseBlock
 
         List<ScriptoriumGolemTracker.LogEntry> entries = tracker.getLogs(hgPos);
 
-        logger.atInfo().log("[GolemBookRead] Player '%s' reading log for HG@%s — %d entries.",
+        logger.atInfo().log("[GolemBookRead] Player '%s' opening log UI for HG@%s (%d entries).",
             player.getDisplayName(), hgPos, entries.size());
         System.out.println("TINKERS DEBUG [GolemBookRead] Player '" + player.getDisplayName()
-            + "' reading log for HG@" + hgPos + " — " + entries.size() + " entries.");
+            + "' opening log UI for HG@" + hgPos + " — " + entries.size() + " entries.");
 
-        if (entries.isEmpty()) {
-            player.sendMessage(Message.raw(
-                "[Scriptorium Golem] The Golem Book is blank — no events recorded yet."));
-            return;
+        // ---- Phase 4: open the paged Golem Book UI ----
+        // playerRef (Ref<EntityStore>) was resolved above; getPlayerRef() gives the typed PlayerRef
+        PlayerRef playerRefForPage = player.getPlayerRef();
+        GolemBookPage page = new GolemBookPage(playerRefForPage, logger, entries, hgPos);
+        try {
+            player.getPageManager().openCustomPage(playerRef, store, page);
+        } catch (Throwable t) {
+            logger.atWarning().withCause(t).log("[GolemBookRead] Failed to open GolemBookPage — falling back to chat.");
+            System.out.println("TINKERS DEBUG [GolemBookRead] openCustomPage threw: " + t);
+            // Chat fallback so the player still gets their data
+            if (entries.isEmpty()) {
+                player.sendMessage(Message.raw(
+                    "[Scriptorium Golem] The Golem Book is blank — no events recorded yet."));
+            } else {
+                player.sendMessage(Message.raw(
+                    "--- Scriptorium Golem Log (Hourglass " + hgPos + ") ---"));
+                int start = Math.max(0, entries.size() - MAX_ENTRIES);
+                if (start > 0) {
+                    player.sendMessage(Message.raw("  ... " + start + " earlier entries omitted ..."));
+                }
+                for (int i = start; i < entries.size(); i++) {
+                    player.sendMessage(Message.raw("  " + entries.get(i).toString()));
+                }
+                player.sendMessage(Message.raw(
+                    "--- End of Log (" + entries.size() + " total entries) ---"));
+            }
         }
-
-        // Header
-        player.sendMessage(Message.raw(
-            "--- Scriptorium Golem Log (Hourglass " + hgPos + ") ---"));
-
-        // Show the most recent MAX_ENTRIES entries (oldest first within the window)
-        int start = Math.max(0, entries.size() - MAX_ENTRIES);
-        if (start > 0) {
-            player.sendMessage(Message.raw(
-                "  ... " + start + " earlier entries omitted ..."));
-        }
-        for (int i = start; i < entries.size(); i++) {
-            player.sendMessage(Message.raw("  " + entries.get(i).toString()));
-        }
-
-        player.sendMessage(Message.raw(
-            "--- End of Log (" + entries.size() + " total entries) ---"));
     }
 
     @Nullable

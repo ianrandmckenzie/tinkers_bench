@@ -92,9 +92,15 @@ The Scriptorium Golem is a stationary guardian/observer summoned by the **Scribe
 ## Phase 4: UI & Interaction
 ### Task 4.1: Book Interface
 - **Description:** Create the logbook UI.
+- **Status:** ✅ Complete.
+- **Implementation:**
+    - `GolemBookPage` (`InteractiveCustomUIPage<GolemBookPage.PageData>`) — paged UI showing up to 10 log entries per page. Header displays hourglass position and current page number. Footer provides `< Previous`, `Next >`, and `Close` buttons. Entry list populated with `cmd.appendInline()` rows.
+    - `TinkersBench_GolemBookPage.ui` in `Common/UI/Custom/Pages/` — layout using `scribe_scrollbg.png` / `scribe_button.png` textures (copied from scribes_lectern conventions).
+    - `GolemBookReadSystem` updated: now calls `player.getPageManager().openCustomPage(playerRef, store, page)` instead of sending raw chat lines. If the engine throws (e.g. during early testing), the previous chat-based fallback is invoked so log data is never lost.
+    - No new system registration needed — `GolemBookReadSystem` was already registered in `TinkersBenchPlugin`.
 - **Criteria:**
-    - Interacting with the **Golem Book** opens a scrollable UI.
-    - Displays the recorded logs from Task 3.3.
+    - Interacting with the **Golem Book** opens a scrollable UI. ✅
+    - Displays the recorded logs from Task 3.3. ✅
 
 ---
 

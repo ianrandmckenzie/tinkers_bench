@@ -1,0 +1,79 @@
+Group {
+    Group {
+        Background: (TexturePath: "scribe_scrollbg.png");
+        Anchor: (Width: 540, Height: 500);
+
+        Group #Header {
+            LayoutMode: Left;
+            Anchor: (Left: 0, Right: 0, Top: 0, Height: 52);
+            Padding: (Left: 14, Right: 14, Top: 14);
+
+            Label {
+                Text: "Scriptorium Golem Log";
+                FlexWeight: 1;
+                Style: (FontSize: 17);
+            }
+
+            Label #HGPos {
+                Text: "";
+                Style: (FontSize: 11, TextColor: #999999);
+                Anchor: (Vertical: 0);
+            }
+        }
+
+        Group {
+            Anchor: (Top: 52, Left: 0, Right: 0, Bottom: 52);
+
+            Group #EntryList {
+                LayoutMode: Top;
+                Anchor: (Left: 0, Right: 0, Top: 0);
+            }
+        }
+
+        Group #Footer {
+            LayoutMode: Left;
+            Anchor: (Left: 0, Right: 0, Bottom: 0, Height: 52);
+            Padding: (Left: 10, Right: 10, Top: 7, Bottom: 7);
+
+            Button #PrevButton {
+                Background: (TexturePath: "scribe_button.png", Border: 10);
+                Anchor: (Width: 110, Height: 38, Vertical: 0);
+                Padding: (Left: 6, Right: 6);
+
+                Label {
+                    Text: "< Previous";
+                    Anchor: (Left: 0, Right: 0, Vertical: 0);
+                }
+            }
+
+            Label #PageLabel {
+                Text: "Page 1 / 1";
+                FlexWeight: 1;
+                Style: (HorizontalAlignment: Center, TextColor: #cccccc, FontSize: 13);
+                Anchor: (Vertical: 0);
+            }
+
+            Button #NextButton {
+                Background: (TexturePath: "scribe_button.png", Border: 10);
+                Anchor: (Width: 110, Height: 38, Vertical: 0);
+                Padding: (Left: 6, Right: 6);
+
+                Label {
+                    Text: "Next >";
+                    Anchor: (Left: 0, Right: 0, Vertical: 0);
+                }
+            }
+
+            Button #CloseButton {
+                Background: (TexturePath: "scribe_button.png", Border: 10);
+                Anchor: (Width: 80, Height: 38, Vertical: 0);
+                Padding: (Left: 6, Right: 6);
+
+                Label {
+                    Text: "Close";
+                    Anchor: (Left: 0, Right: 0, Vertical: 0);
+                }
+            }
+        }
+    }
+}
