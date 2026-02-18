@@ -47,5 +47,11 @@ public class TinkersBenchPlugin extends JavaPlugin {
     getLogger().atInfo().log("Tinkers Bench: GolemBookPlaceSystem registered.");
     getEntityStoreRegistry().registerSystem(new GolemBookBreakSystem(getLogger(), golemTracker));
     getLogger().atInfo().log("Tinkers Bench: GolemBookBreakSystem registered.");
+
+    // --- Scriptorium Golem: Event interception (Task 3.2) ---
+    getEntityStoreRegistry().registerSystem(new GolemPresenceSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemPresenceSystem registered.");
+    getEntityStoreRegistry().registerSystem(new GolemSightEventSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemSightEventSystem registered.");
   }
 }

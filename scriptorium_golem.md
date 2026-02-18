@@ -66,10 +66,16 @@ The Scriptorium Golem is a stationary guardian/observer summoned by the **Scribe
 
 ### Task 3.2: Event Interception
 - **Description:** Detect "Sights and Sounds".
+- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Implementation:**
+    - `GolemPresenceSystem` (`DelayedEntitySystem<EntityStore>`, 0.5 s tick, `PlayerRef` query) — polls each player's `TransformComponent` position every 0.5 s; logs `"Player '...' entered/departed monitoring radius"` on edge transitions for every active hourglass within 15 blocks.  In-range state tracked in a `ConcurrentHashSet` keyed by `refId@hgKey` so only enter/exit transitions are logged.
+    - `GolemSightEventSystem` (`EntityEventSystem<EntityStore, UseBlockEvent.Pre>`, `PlayerRef` query) — fires on every block interaction by a player; if the player is within 15 blocks of an active hourglass, classifies the block type (chest/door/lever/furnace/generic) and appends an entry to the hourglass log.
+    - `ScriptoriumGolemTracker` updated with `isActive(pos)`, `LogEntry` (immutable record with wall-clock `timestampMs` + `description`), `addLog(pos, text)`, `getLogs(pos)`, and `clearLogs` (called automatically on `unbind`).
+    - All detections are also surfaced via `System.out` / logger for server-log confirmation.
 - **Criteria:**
-    - Detect NPCs/Players entering a 15-block radius.
-    - Detect nearby Interaction events (Chests opening, Doors moving).
-    - Detect Crop Maturity events in radius.
+    - Detect NPCs/Players entering a 15-block radius. 🔄 (player enter/exit implemented; NPC detection deferred pending confirmed NPC component query pattern)
+    - Detect nearby Interaction events (Chests opening, Doors moving). 🔄 (`UseBlockEvent.Pre` captured; block-type keywords logged raw until IDs are confirmed in server logs)
+    - Detect Crop Maturity events in radius. ⏳ (no `CropGrowEvent` found in server jar — will revisit if a suitable hook is discovered or confirmed via server logs)
 
 ### Task 3.3: Writing to the Log
 - **Description:** Format detected events into text entries.

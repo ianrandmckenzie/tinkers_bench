@@ -4,6 +4,9 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,6 +70,7 @@ public class ScriptoriumGolemTracker {
 
     /** Remove and return the golem entry for the given block position. */
     public Ref<EntityStore> unbind(Vector3i hourglassPos) {
+        clearLogs(hourglassPos);
         return golemsByBlockPos.remove(key(hourglassPos));
     }
 
@@ -170,5 +174,68 @@ public class ScriptoriumGolemTracker {
             }
         }
         return null;
+    }
+
+    // -------------------------------------------------------------------------
+    // Log buffer (Task 3.2 / 3.3)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Simple immutable log entry recorded by event-detection systems.
+     * Timestamp is a wall-clock ms value; description is a human-readable
+     * string.  Task 3.3 will format/persist these entries further.
+     */
+    public static final class LogEntry {
+        public final long timestampMs;
+        public final String description;
+
+        public LogEntry(String description) {
+            this.timestampMs = System.currentTimeMillis();
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + timestampMs + "] " + description;
+        }
+    }
+
+    /** Per-hourglass in-memory log, keyed by hourglass position string. */
+    private final Map<String, List<LogEntry>> logsByHourglass = new ConcurrentHashMap<>();
+
+    /**
+     * True if this hourglass position has a bound (valid) golem AND at least
+     * one adjacent Golem Book — i.e. the monitoring pair is fully active.
+     */
+    public boolean isActive(Vector3i hourglassPos) {
+        return isBound(hourglassPos) && isBookAdjacent(hourglassPos);
+    }
+
+    /**
+     * Append a log entry for the given hourglass.  No-op if the position is not
+     * currently tracked (guards against stale references after unbind).
+     */
+    public void addLog(Vector3i hourglassPos, String description) {
+        String k = key(hourglassPos);
+        if (!golemsByBlockPos.containsKey(k)) return;
+        logsByHourglass.computeIfAbsent(k, _k -> Collections.synchronizedList(new ArrayList<>()))
+                       .add(new LogEntry(description));
+    }
+
+    /**
+     * Returns a snapshot of all log entries for the given hourglass, oldest first.
+     * Returns an empty list if there are no entries or the position is not tracked.
+     */
+    public List<LogEntry> getLogs(Vector3i hourglassPos) {
+        List<LogEntry> entries = logsByHourglass.get(key(hourglassPos));
+        if (entries == null) return Collections.emptyList();
+        synchronized (entries) {
+            return new ArrayList<>(entries);
+        }
+    }
+
+    /** Remove the log buffer when an hourglass is unbound. */
+    private void clearLogs(Vector3i hourglassPos) {
+        logsByHourglass.remove(key(hourglassPos));
     }
 }
