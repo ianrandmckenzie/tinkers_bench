@@ -47,6 +47,9 @@ public class GolemPresenceSystem extends DelayedEntitySystem<EntityStore> {
     /** Players we have logged a diagnostics position message for (dedup). */
     private final Set<Integer> diagnosedPlayers = ConcurrentHashMap.newKeySet();
 
+    /** Monotonic poll counter — used to throttle the "no active hourglasses" warning. */
+    private long pollCount = 0;
+
     public GolemPresenceSystem(HytaleLogger logger, ScriptoriumGolemTracker tracker) {
         super(0.5f); // poll every 0.5 s — fast enough to detect entries without being noisy
         this.logger  = logger;
@@ -67,6 +70,19 @@ public class GolemPresenceSystem extends DelayedEntitySystem<EntityStore> {
 
         Ref<EntityStore> playerRef = chunk.getReferenceTo(index);
         if (playerRef == null || !playerRef.isValid()) return;
+
+        // Throttled diagnostic: every 20 polls (~10 s) for this entity, print
+        // the active hourglass count so we can confirm setup state in logs.
+        long myPoll = ++pollCount;
+        if (myPoll % 20 == 1) {
+            int hgCount = tracker.getHourglassKeys().size();
+            long activeCount = tracker.getHourglassKeys().stream()
+                .map(k -> { try { String[] p = k.split(","); return new com.hypixel.hytale.math.vector.Vector3i(Integer.parseInt(p[0]),Integer.parseInt(p[1]),Integer.parseInt(p[2])); } catch (Exception e) { return null; } })
+                .filter(pos -> pos != null && tracker.isActive(pos))
+                .count();
+            logger.atInfo().log("[GolemPresence] STATE: %d hourglass(es) tracked, %d active", hgCount, activeCount);
+            System.out.println("TINKERS DEBUG [GolemPresence] STATE: " + hgCount + " hourglass(es) tracked, " + activeCount + " active");
+        }
 
         TransformComponent tc = store.getComponent(playerRef, TransformComponent.getComponentType());
         if (tc == null) return;

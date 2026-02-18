@@ -1,11 +1,19 @@
 package com.relentlesscurious.tinkersbench;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +27,54 @@ import java.util.concurrent.ConcurrentHashMap;
  * (Task 3.1) can be done without querying the world block API.
  */
 public class ScriptoriumGolemTracker {
+
+    // -------------------------------------------------------------------------
+    // Persistence
+    // -------------------------------------------------------------------------
+
+    private static final File PERSIST_FILE = new File("config", "golem_hourglasses.json");
+    private static final Gson GSON = new Gson();
+
+    /**
+     * Persists the current set of bound hourglass position keys to disk so they
+     * survive server restarts.  Called automatically from bind() and unbind().
+     * Failures are non-fatal — they are logged to stderr but do not throw.
+     */
+    private void savePositions() {
+        try {
+            PERSIST_FILE.getParentFile().mkdirs();
+            try (FileWriter w = new FileWriter(PERSIST_FILE)) {
+                GSON.toJson(new ArrayList<>(golemsByBlockPos.keySet()), w);
+            }
+        } catch (IOException e) {
+            System.err.println("TINKERS ERROR [GolemTracker] Failed to save hourglass positions: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads persisted hourglass position keys from disk.
+     * Returns an empty set if the file does not exist or cannot be read.
+     */
+    public Set<String> loadPersistedPositions() {
+        if (!PERSIST_FILE.exists()) {
+            System.out.println("TINKERS DEBUG [GolemTracker] No persisted hourglass file at " + PERSIST_FILE.getAbsolutePath() + " — nothing to restore.");
+            return Collections.emptySet();
+        }
+        try (FileReader r = new FileReader(PERSIST_FILE)) {
+            Type listType = new TypeToken<List<String>>() {}.getType();
+            List<String> keys = GSON.fromJson(r, listType);
+            if (keys == null) return Collections.emptySet();
+            System.out.println("TINKERS DEBUG [GolemTracker] Loaded " + keys.size() + " persisted hourglass position(s) from disk.");
+            return new HashSet<>(keys);
+        } catch (IOException e) {
+            System.err.println("TINKERS ERROR [GolemTracker] Failed to read hourglass positions: " + e.getMessage());
+            return Collections.emptySet();
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // In-memory state
+    // -------------------------------------------------------------------------
 
     /** Hourglass pos key → Golem entity Ref */
     private final Map<String, Ref<EntityStore>> golemsByBlockPos = new ConcurrentHashMap<>();
@@ -61,6 +117,7 @@ public class ScriptoriumGolemTracker {
     /** Record that a golem was summoned at the given hourglass block position. */
     public void bind(Vector3i hourglassPos, Ref<EntityStore> golemRef) {
         golemsByBlockPos.put(key(hourglassPos), golemRef);
+        savePositions();
     }
 
     /** Look up the golem bound to the given hourglass block position, or null. */
@@ -71,13 +128,26 @@ public class ScriptoriumGolemTracker {
     /** Remove and return the golem entry for the given block position. */
     public Ref<EntityStore> unbind(Vector3i hourglassPos) {
         clearLogs(hourglassPos);
-        return golemsByBlockPos.remove(key(hourglassPos));
+        Ref<EntityStore> ref = golemsByBlockPos.remove(key(hourglassPos));
+        savePositions();
+        return ref;
     }
 
     /** True if there is already a summoned golem at this position. */
     public boolean isBound(Vector3i hourglassPos) {
         Ref<EntityStore> ref = golemsByBlockPos.get(key(hourglassPos));
         return ref != null && ref.isValid();
+    }
+
+    /**
+     * True if the given Ref is one of the golem refs currently tracked by this
+     * instance.  Used by GolemNPCPresenceSystem to detect orphaned golems that
+     * were persisted by Hytale but are no longer registered in the tracker
+     * (e.g. after a restart before GolemRebindSystem ran, or after the associate
+     * hourglass was broken in a previous session).
+     */
+    public boolean isGolemRefKnown(Ref<EntityStore> ref) {
+        return golemsByBlockPos.containsValue(ref);
     }
 
     /** Returns all currently tracked hourglass positions (as Vector3i). */

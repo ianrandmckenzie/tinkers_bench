@@ -41,6 +41,9 @@ public class TinkersBenchPlugin extends JavaPlugin {
     getLogger().atInfo().log("Tinkers Bench: HourglassPlaceSystem registered.");
     getEntityStoreRegistry().registerSystem(new HourglassBreakSystem(getLogger(), golemTracker));
     getLogger().atInfo().log("Tinkers Bench: HourglassBreakSystem registered.");
+    // Re-binds persisted Scriptorium Golem NPCs into the tracker after a server restart.
+    getEntityStoreRegistry().registerSystem(new GolemRebindSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemRebindSystem registered.");
 
     // --- Scriptorium Golem: Golem Book proximity tracking (Task 3.1) ---
     getEntityStoreRegistry().registerSystem(new GolemBookPlaceSystem(getLogger(), golemTracker));
@@ -51,6 +54,8 @@ public class TinkersBenchPlugin extends JavaPlugin {
     // --- Scriptorium Golem: Event interception (Task 3.2) ---
     getEntityStoreRegistry().registerSystem(new GolemPresenceSystem(getLogger(), golemTracker));
     getLogger().atInfo().log("Tinkers Bench: GolemPresenceSystem registered.");
+    getEntityStoreRegistry().registerSystem(new GolemNPCPresenceSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemNPCPresenceSystem registered.");
     getEntityStoreRegistry().registerSystem(new GolemSightEventSystem(getLogger(), golemTracker));
     getLogger().atInfo().log("Tinkers Bench: GolemSightEventSystem registered.");
   }

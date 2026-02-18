@@ -26,35 +26,39 @@ The Scriptorium Golem is a stationary guardian/observer summoned by the **Scribe
 ## Phase 2: Lifecycle Management
 ### Task 2.1: Summoning System
 - **Description:** Detect Hourglass placement to spawn the Golem.
-- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Status:** ✅ Complete.
 - **Implementation:**
     - `HourglassPlaceSystem` (`EntityEventSystem<EntityStore, PlaceBlockEvent>`)
-    - `ScriptoriumGolemTracker` (block pos → golem `Ref` map)
+    - `ScriptoriumGolemTracker` (block pos → golem `Ref` map, persisted to `config/golem_hourglasses.json`)
     - Detection: `event.getItemInHand().getItemId()` (contains `"hourglass"`, case-insensitive)
     - Spawn: `NPCPlugin.get().spawnNPC(store, "Scriptorium_Golem", null, pos, Vector3f.ZERO)`
     - All block placements are logged for diagnostic confirmation of block ID format.
 - **Criteria:**
     - A system or event listener triggers on `Scribes_Hourglass` placement. ✅ (`HourglassPlaceSystem` registered)
-    - Golem entity is spawned at the block location. 🔄 (needs server confirmation)
+    - Golem entity is spawned at the block location. ✅
 
 ### Task 2.2: Binding & Cleanup
 - **Description:** Link the Golem to the block.
-- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Status:** ✅ Complete.
 - **Implementation:**
     - `HourglassBreakSystem` (`EntityEventSystem<EntityStore, BreakBlockEvent>`)
+    - `GolemRebindSystem` (`DelayedEntitySystem<EntityStore>`) — re-spawns golems from persisted positions on server restart; no NPC scan.
+    - Persistence: `ScriptoriumGolemTracker` writes `config/golem_hourglasses.json` on every `bind()`/`unbind()`; `GolemRebindSystem` reads it at startup.
+    - Orphan cleanup: `GolemNPCPresenceSystem` removes any unbound `Scriptorium_Golem` NPC after a 4 s startup grace period.
     - Detection: `tracker.isBound(pos)` — primary guard, avoids needing block ID at break time
     - Cleanup: `tracker.unbind(pos)` + `commandBuffer.removeEntity(golemRef, RemoveReason.REMOVE)` deferred via `world.execute()`
     - All block breaks are logged for diagnostic confirmation of position format.
 - **Criteria:**
-    - If the Hourglass block is removed, the associated Golem is killed immediately. 🔄 (needs server confirmation)
+    - If the Hourglass block is removed, the associated Golem is killed immediately. ✅
     - Ensure only one Golem per Hourglass. ✅ (`tracker.isBound()` guard in `HourglassPlaceSystem`)
+    - Golem binding survives server restarts. ✅ (file-persisted positions + `GolemRebindSystem`)
 
 ---
 
 ## Phase 3: Monitoring & Logging (The ECS System)
 ### Task 3.1: Proximity Detection
 - **Description:** Verify the "Golem Book" is adjacent to the "Scribes' Hourglass".
-- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Status:** ✅ Complete.
 - **Implementation:**
     - `GolemBookPlaceSystem` (`EntityEventSystem<EntityStore, PlaceBlockEvent>`) — registers book positions in tracker; checks adjacency to any tracked hourglass on placement.
     - `GolemBookBreakSystem` (`EntityEventSystem<EntityStore, BreakBlockEvent>`) — deregisters book positions on removal.
@@ -62,20 +66,21 @@ The Scriptorium Golem is a stationary guardian/observer summoned by the **Scribe
     - `HourglassPlaceSystem` updated to check for a pre-existing adjacent book on hourglass placement.
     - All events surface results as in-game chat messages (`Message.raw(...)` via `Player.sendMessage`) — no need to tail server logs.
 - **Criteria:**
-    - Logging only occurs if the Book block is within 1 block of the Hourglass. 🔄 (adjacency gate implemented; needs server confirmation)
+    - Logging only occurs if the Book block is within 1 block of the Hourglass. ✅
 
 ### Task 3.2: Event Interception
 - **Description:** Detect "Sights and Sounds".
-- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Status:** ✅ Complete.
 - **Implementation:**
     - `GolemPresenceSystem` (`DelayedEntitySystem<EntityStore>`, 0.5 s tick, `PlayerRef` query) — polls each player's `TransformComponent` position every 0.5 s; logs `"Player '...' entered/departed monitoring radius"` on edge transitions for every active hourglass within 15 blocks.  In-range state tracked in a `ConcurrentHashSet` keyed by `refId@hgKey` so only enter/exit transitions are logged.
+    - `GolemNPCPresenceSystem` (`DelayedEntitySystem<EntityStore>`, 0.5 s tick, `NPCEntity` query) — same proximity logic for NPC entities; also handles orphan cleanup of unbound `Scriptorium_Golem` NPCs after server restart.
     - `GolemSightEventSystem` (`EntityEventSystem<EntityStore, UseBlockEvent.Pre>`, `PlayerRef` query) — fires on every block interaction by a player; if the player is within 15 blocks of an active hourglass, classifies the block type (chest/door/lever/furnace/generic) and appends an entry to the hourglass log.
     - `ScriptoriumGolemTracker` updated with `isActive(pos)`, `LogEntry` (immutable record with wall-clock `timestampMs` + `description`), `addLog(pos, text)`, `getLogs(pos)`, and `clearLogs` (called automatically on `unbind`).
     - All detections are also surfaced via `System.out` / logger for server-log confirmation.
 - **Criteria:**
-    - Detect NPCs/Players entering a 15-block radius. 🔄 (player enter/exit implemented; NPC detection deferred pending confirmed NPC component query pattern)
-    - Detect nearby Interaction events (Chests opening, Doors moving). 🔄 (`UseBlockEvent.Pre` captured; block-type keywords logged raw until IDs are confirmed in server logs)
-    - Detect Crop Maturity events in radius. ⏳ (no `CropGrowEvent` found in server jar — will revisit if a suitable hook is discovered or confirmed via server logs)
+    - Detect NPCs/Players entering a 15-block radius. ✅ (player and NPC enter/exit both implemented)
+    - Detect nearby Interaction events (Chests opening, Doors moving). ✅ (`UseBlockEvent.Pre` captured; block-type keywords logged)
+    - Detect Crop Maturity events in radius. ⏳ (no `CropGrowEvent` found in server jar — will revisit if a suitable hook is confirmed)
 
 ### Task 3.3: Writing to the Log
 - **Description:** Format detected events into text entries.
