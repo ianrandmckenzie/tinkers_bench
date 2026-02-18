@@ -5,6 +5,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.relentlesscurious.tinkersbench.config.ConfigManager;
 import javax.annotation.Nonnull;
 
+
 /**
  * Tinkers Bench Plugin for Hytale.
  * Handles specialized motorcycle entity logic.
@@ -33,5 +34,18 @@ public class TinkersBenchPlugin extends JavaPlugin {
     // this::handleInteract);
 
     getEntityStoreRegistry().registerSystem(new MotorcycleSystem(getLogger(), configManager.getConfig()));
+
+    // --- Scriptorium Golem: summoning & cleanup systems (Tasks 2.1 / 2.2) ---
+    ScriptoriumGolemTracker golemTracker = new ScriptoriumGolemTracker();
+    getEntityStoreRegistry().registerSystem(new HourglassPlaceSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: HourglassPlaceSystem registered.");
+    getEntityStoreRegistry().registerSystem(new HourglassBreakSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: HourglassBreakSystem registered.");
+
+    // --- Scriptorium Golem: Golem Book proximity tracking (Task 3.1) ---
+    getEntityStoreRegistry().registerSystem(new GolemBookPlaceSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemBookPlaceSystem registered.");
+    getEntityStoreRegistry().registerSystem(new GolemBookBreakSystem(getLogger(), golemTracker));
+    getLogger().atInfo().log("Tinkers Bench: GolemBookBreakSystem registered.");
   }
 }

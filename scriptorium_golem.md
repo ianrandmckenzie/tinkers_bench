@@ -26,23 +26,43 @@ The Scriptorium Golem is a stationary guardian/observer summoned by the **Scribe
 ## Phase 2: Lifecycle Management
 ### Task 2.1: Summoning System
 - **Description:** Detect Hourglass placement to spawn the Golem.
+- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Implementation:**
+    - `HourglassPlaceSystem` (`EntityEventSystem<EntityStore, PlaceBlockEvent>`)
+    - `ScriptoriumGolemTracker` (block pos → golem `Ref` map)
+    - Detection: `event.getItemInHand().getItemId()` (contains `"hourglass"`, case-insensitive)
+    - Spawn: `NPCPlugin.get().spawnNPC(store, "Scriptorium_Golem", null, pos, Vector3f.ZERO)`
+    - All block placements are logged for diagnostic confirmation of block ID format.
 - **Criteria:**
-    - A system or event listener triggers on `Scribes_Hourglass` placement.
-    - Golem entity is spawned at the block location.
+    - A system or event listener triggers on `Scribes_Hourglass` placement. ✅ (`HourglassPlaceSystem` registered)
+    - Golem entity is spawned at the block location. 🔄 (needs server confirmation)
 
 ### Task 2.2: Binding & Cleanup
 - **Description:** Link the Golem to the block.
+- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Implementation:**
+    - `HourglassBreakSystem` (`EntityEventSystem<EntityStore, BreakBlockEvent>`)
+    - Detection: `tracker.isBound(pos)` — primary guard, avoids needing block ID at break time
+    - Cleanup: `tracker.unbind(pos)` + `commandBuffer.removeEntity(golemRef, RemoveReason.REMOVE)` deferred via `world.execute()`
+    - All block breaks are logged for diagnostic confirmation of position format.
 - **Criteria:**
-    - If the Hourglass block is removed, the associated Golem is killed immediately.
-    - Ensure only one Golem per Hourglass.
+    - If the Hourglass block is removed, the associated Golem is killed immediately. 🔄 (needs server confirmation)
+    - Ensure only one Golem per Hourglass. ✅ (`tracker.isBound()` guard in `HourglassPlaceSystem`)
 
 ---
 
 ## Phase 3: Monitoring & Logging (The ECS System)
 ### Task 3.1: Proximity Detection
 - **Description:** Verify the "Golem Book" is adjacent to the "Scribes' Hourglass".
+- **Status:** 🔄 Implemented — pending server acceptance test.
+- **Implementation:**
+    - `GolemBookPlaceSystem` (`EntityEventSystem<EntityStore, PlaceBlockEvent>`) — registers book positions in tracker; checks adjacency to any tracked hourglass on placement.
+    - `GolemBookBreakSystem` (`EntityEventSystem<EntityStore, BreakBlockEvent>`) — deregisters book positions on removal.
+    - `ScriptoriumGolemTracker` updated with `addBook` / `removeBook` / `isBookAdjacent(hourglassPos)` / `findAdjacentHourglass(bookPos)`, checking all 6 face-neighbors.
+    - `HourglassPlaceSystem` updated to check for a pre-existing adjacent book on hourglass placement.
+    - All events surface results as in-game chat messages (`Message.raw(...)` via `Player.sendMessage`) — no need to tail server logs.
 - **Criteria:**
-    - Logging only occurs if the Book block is within 1 block of the Hourglass.
+    - Logging only occurs if the Book block is within 1 block of the Hourglass. 🔄 (adjacency gate implemented; needs server confirmation)
 
 ### Task 3.2: Event Interception
 - **Description:** Detect "Sights and Sounds".
