@@ -25,10 +25,16 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * Task 3.3: When a player right-clicks (UseBlockEvent.Pre) the Golem Book block,
- * the formatted log for the adjacent Hourglass is sent as in-game chat messages.
+ * Task 3.3: When a player uses (primary interact / UseBlockEvent.Pre) the
+ * placed Golem Book block, the formatted log for the adjacent Hourglass is
+ * sent as in-game chat messages.
  *
- * Each entry is displayed as:
+ * The Golem Book's item definition uses "Block_Primary" as its Primary
+ * interaction, which routes through the UseBlock interaction and fires
+ * UseBlockEvent.Pre in the ECS — the same event used by all block-interaction
+ * systems in this plugin (GolemSightEventSystem, SimpleClaims' InteractEventSystem, etc.)
+ *
+ * Each log entry is displayed as:
  *   [2026-02-17 14:23:05] Player 'Alice' entered monitoring radius (dist=7.3)
  *
  * If the book has no adjacent active Hourglass, or the log is empty, an

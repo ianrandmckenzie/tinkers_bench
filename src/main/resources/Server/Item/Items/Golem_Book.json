@@ -48,6 +48,16 @@
     ],
     "HitboxType": "Block_Quarter",
     "VariantRotation": "NESW",
+    "InteractionHint": "scriptorium_golem.book.interactionHint",
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "Simple"
+          }
+        ]
+      }
+    },
     "Support": {
       "Down": [
         {
