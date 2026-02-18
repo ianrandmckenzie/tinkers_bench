@@ -11,6 +11,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -253,9 +256,14 @@ public class ScriptoriumGolemTracker {
     /**
      * Simple immutable log entry recorded by event-detection systems.
      * Timestamp is a wall-clock ms value; description is a human-readable
-     * string.  Task 3.3 will format/persist these entries further.
+     * string.  Task 3.3 formats entries so the UI (Phase 4) and in-game
+     * chat display are both readable.
      */
     public static final class LogEntry {
+        private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                             .withZone(ZoneId.systemDefault());
+
         public final long timestampMs;
         public final String description;
 
@@ -264,9 +272,18 @@ public class ScriptoriumGolemTracker {
             this.description = description;
         }
 
+        /** Human-readable timestamp, e.g. {@code 2026-02-17 14:23:05}. */
+        public String getFormattedTime() {
+            return FORMATTER.format(Instant.ofEpochMilli(timestampMs));
+        }
+
+        /**
+         * Format suitable for in-game chat display.
+         * Example: {@code [2026-02-17 14:23:05] Player 'Alice' entered monitoring radius}
+         */
         @Override
         public String toString() {
-            return "[" + timestampMs + "] " + description;
+            return "[" + getFormattedTime() + "] " + description;
         }
     }
 
